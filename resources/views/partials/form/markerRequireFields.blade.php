@@ -1,0 +1,1 @@
+<p>{!! __('form.markerRequireFields', ['marker' => '<sup class="text-danger">*</sup>']) !!}</p>
