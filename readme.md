@@ -1,7 +1,8 @@
 # Laravel Blog
 
 A simple blog for demonstration purpose. Based on Laravel 5.8
-
+link to file with requirements : 
+https://drive.google.com/file/d/1XeIDnUyiflq4JB6AvCF1q978uwmEx0Gw/view?usp=sharing
 ## Demo login info
 
 user: test@test.test | password: password
