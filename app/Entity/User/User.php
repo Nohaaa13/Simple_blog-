@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property integer $role_id
  * @property string $password
  * @property string $remember_token
+ * @property string $api_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
