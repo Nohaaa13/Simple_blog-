@@ -5,14 +5,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
-class PostRequest
+class CommentRequest
 {
 
     public static function rulesOne()
     {
         return [
-            'title' => 'required|string|max:255',
-            'PostBody' => 'required',
+            'CommentBody' => 'required',
         ];
     }
 

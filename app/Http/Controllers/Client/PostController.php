@@ -110,6 +110,7 @@ class PostController extends Controller
 
     public function postEdit(Request $request, Posts $post)
     {
+        if($this->service->validatePost($request)) {
         try {
             $post->title = $request->get('title');
             $post->body = Purifier::clean($request->get('PostBody'));
@@ -118,6 +119,9 @@ class PostController extends Controller
             return redirect()->to(route('client.home'))->with('success', trans('user.message.successEditPost'));
         } catch (\Exception $exception) {
             return redirect()->to(route('client.home'))->with('error', trans('user.message.errorEditPost'));
+        }
+        } else {
+            return redirect()->to(route('client.home'))->with('error', trans('user.message.errorValidatePost'));
         }
     }
 

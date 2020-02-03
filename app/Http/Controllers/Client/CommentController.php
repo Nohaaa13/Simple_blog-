@@ -6,23 +6,43 @@ use App\Entity\CommentLikes;
 use App\Entity\Comments;
 use App\Entity\Posts;
 use App\Http\Controllers\Controller;
+use App\Services\CommentServices;
+use App\Services\Dto\CommentDto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+
+    protected $service;
+
+    /**
+     * CommentController constructor.
+     * @param CommentServices $service
+     */
+    public function __construct(CommentServices $service)
+    {
+        $this->middleware(['auth']);
+        $this->service = $service;
+    }
+
     public function commentCreate(Request $request, Posts $post )
     {
-        try {
-            $comment = new Comments();
-            $comment->body = $request->get('CommentBody');
-            $comment->post_id = $post->id;
-            $comment->user_id = Auth::user()->id;
-            $comment->save();
-            return redirect()->to(route('client.post.show',$post))->with('success', trans('user.message.successCreateComment'));
-        } catch (\Exception $exception) {
-            return redirect()->to(route('client.post.show',$post))->with('error', trans('user.message.errorCreateComment'));
+        if($this->service->validateComment($request)) {
+
+            $commentDto = new CommentDto($request->get('CommentBody'),Auth::user()->id,$post->id);
+
+            if($this->service->Comment($commentDto)) {
+
+                return redirect()->to(route('client.post.show',$post))->with('success', trans('user.message.successCreateComment'));
+            }  else {
+                return redirect()->to(route('client.post.show',$post))->with('error', trans('user.message.errorCreateComment'));
+            }
+
+        } else {
+            return redirect()->to(route('client.post.show',$post))->with('error', trans('user.message.errorValidatePost'));
         }
+
     }
 
     public function commentLikeComment(Request $request )
