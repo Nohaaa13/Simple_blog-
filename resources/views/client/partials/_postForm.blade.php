@@ -17,13 +17,14 @@
                 <label class="PostBody__label col-md-4 col-form-label text-md-right" for="PostBody">
                     {{ __('user.field.body') }}<sup class="text-danger">*</sup>
                 </label>
-                @if ($errors->has('PostBody'))
+                <textarea class="PostBody form-control{{ $errors->has('PostBody') ? ' is-invalid' : '' }} " id="PostBody" name="PostBody"  >{{ old('PostBody', $post->body) }}</textarea>
+            @if ($errors->has('PostBody'))
                     <span class="invalid-feedback">
                 <strong>{{ $errors->first('PostBody') }}</strong>
             </span>
                 @endif
-            </div>
-            <textarea id="PostBody" name="PostBody" required {{ $errors->has('PostBody') ? ' is-invalid' : '' }}>{{ old('PostBody', $post->body) }}</textarea>
+                 </div>
+
 
             <div class="submit form-group row mb-0 submitBtn">
                 <div class="submitBtn__div col-md-6 offset-md-4">

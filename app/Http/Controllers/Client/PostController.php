@@ -7,6 +7,8 @@ use App\Entity\PostLikes;
 use App\Entity\Posts;
 use App\Entity\User\User;
 use App\Http\Controllers\Controller;
+use App\Services\Dto\PostDto;
+use App\Services\PostServices;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,12 +18,17 @@ use Mews\Purifier\Facades\Purifier;
 class PostController extends Controller
 {
 
+    protected $service;
 
-    public function __construct()
+    /**
+     * PostController constructor.
+     * @param PostServices $service
+     */
+    public function __construct(PostServices $service)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
+        $this->service = $service;
     }
-
     public function index(Request $request)
     {
         $pageTitle = trans('user.page.home.header');
@@ -77,15 +84,20 @@ class PostController extends Controller
 
     public function postCreate(Request $request)
     {
-        try {
-            $post = new Posts();
-            $post->title = $request->get('title');
-            $post->body = Purifier::clean($request->get('PostBody'));
-            $post->user_id = Auth::user()->id;
-            $post->save();
-            return redirect()->to(route('client.home'))->with('success', trans('user.message.successCreatePost'));
-        } catch (\Exception $exception) {
-            return redirect()->to(route('client.home'))->with('error', trans('user.message.errorCreatePost'));
+
+        if($this->service->validatePost($request)) {
+
+            $postDto = new PostDto($request->get('title'),Purifier::clean($request->get('PostBody')),Auth::user()->id);
+
+            if($this->service->Post($postDto)) {
+
+                return redirect()->to(route('client.home'))->with('success', trans('user.message.successCreatePost'));
+            }  else {
+                return redirect()->to(route('client.home'))->with('error', trans('user.message.errorCreatePost'));
+            }
+
+        } else {
+            return redirect()->to(route('client.home'))->with('error', trans('user.message.errorValidatePost'));
         }
     }
 

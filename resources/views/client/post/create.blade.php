@@ -14,7 +14,7 @@
 
             <form method="POST" action="">
                 @csrf
-                @include('client.partials._postForm', ['buttonTitle' => __('user.action.add'),'post' => $post ])
+                @include('client.partials._postForm', ['buttonTitle' => __('user.action.add') ,'post' => $post ])
             </form>
         </div>
     </div>

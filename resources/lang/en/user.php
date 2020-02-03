@@ -33,6 +33,7 @@ return [
         'save' => 'Save',
     ],
     'message' => [
+        'errorValidatePost' => 'Not all fields are full!',
         'successCreatePost' => 'Post created successfully',
         'errorCreatePost' => 'Post  not created, an error occurred!',
         'successCreateComment' => 'Comment created successfully',

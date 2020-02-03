@@ -22,7 +22,7 @@
                     </h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{  $post->users->name}} <a href="{{route('client.post.list',$post->users)}}">{{toDateFormat($post->created_at)}}</a></h6>
                     <p class="card-text">{!! $post->body !!} </p>
-                    <span data-order="{{ $post->id }}" class="ml-3  spanlike">{{ $post->likes}}</span>
+                    <span data-post="{{ $post->id }}" class="ml-3  spanlike">{{ $post->likes}}</span>
                     <div class="interaction">
                         <a href="#" data-location ="{{ route('client.post.like') }}" class="btn btn-xs btn-warning like">{{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'You like this post' : 'Like' : 'Like'  }}</a>
                     </div>

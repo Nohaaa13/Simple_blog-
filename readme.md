@@ -11,7 +11,7 @@ user: test@test.test | password: password
 
 ```
 git clone https://github.com/Nohaaa13/Simple_blog-.git
-cd Simple_blog
+cd Simple_blog-
 composer install
 cp .env.example .env
 write in env your db setting

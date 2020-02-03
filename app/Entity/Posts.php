@@ -54,7 +54,7 @@ class Posts extends Model
 
     {
 
-        $userIds = User::where('name', '=', $author)->pluck('id')->toArray();
+        $userIds = User::where('name', 'like', "%$author%" )->pluck('id')->toArray();
 
 
 
