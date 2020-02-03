@@ -12,7 +12,12 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    'field' => [
+        'logout' => 'Exit',
+        'email' => 'Email',
+        'password' => 'Password',
+        'confirmPassword' => 'confirm Password',
+    ],
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 

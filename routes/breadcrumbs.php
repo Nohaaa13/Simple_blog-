@@ -33,6 +33,11 @@ Breadcrumbs::register('client.post.show', function (Crumbs $crumbs, Posts $post)
     $crumbs->parent('client.home');
     $crumbs->push(trans('user.page.post.show'), route('client.post.show',$post));
 });
+// Post Client list
+Breadcrumbs::register('client.post.list', function (Crumbs $crumbs, User $users ) {
+    $crumbs->parent('client.home');
+    $crumbs->push(trans('user.page.post.list'), route('client.post.list',$users));
+});
 /**
  * ADMIN
  */
@@ -40,19 +45,4 @@ Breadcrumbs::register('client.post.show', function (Crumbs $crumbs, Posts $post)
 Breadcrumbs::register('admin.home', function (Crumbs $crumbs) {
     $crumbs->push(trans('user.page.home.header'), route('admin.home'));
 });
-// Home -> Clients list
-Breadcrumbs::register('admin.clients.list', function (Crumbs $crumbs) {
-    $crumbs->parent('admin.home');
-    $crumbs->push(trans('admin.page.clients.header'), route('admin.clients.list'));
-});
-// Client list -> Show user
-Breadcrumbs::register('admin.clients.show', function (Crumbs $crumbs, User $user) {
-    $crumbs->parent('admin.clients.list');
-    $crumbs->push(trans('admin.page.clients.show', ['name' => is_null($user->general_info) || $user->general_info->getFio() == false ?
-        '' : $user->general_info->getFio()->getFullName()]), route('admin.clients.show', $user));
-});
-// Client -> Client edit view
-Breadcrumbs::register('admin.clients.edit.list', function (Crumbs $crumbs, User $user) {
-    $crumbs->parent('admin.clients.show', $user);
-    $crumbs->push(trans('admin.page.clients.edit.header'), route('admin.clients.edit.list', $user));
-});
+

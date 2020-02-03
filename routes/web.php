@@ -38,8 +38,34 @@ Route::group(
             Route::delete('delete/{post}', 'PostController@postDelete')->name('delete');;
             Route::get('create', 'PostController@postFormCreate')->name('create');
             Route::post('create', 'PostController@postCreate');
-            Route::get('sho/{post}', 'PostController@show')->name('show');
+            Route::get('show/{post}', 'PostController@show')->name('show');
+
+            Route::get('list/{users} ', 'PostController@list')->name('list');
+
+            Route::post('/like','PostController@postLikePost')->name('like');
         });
+        Route::group([
+            'prefix' => 'comment',
+            'as' => 'comment.',
+        ], function() {
+            Route::post('comment/{post}', 'CommentController@commentCreate')->name('create');
+
+            Route::post('/like','CommentController@commentLikeComment')->name('like');
+        });
+
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'admin',
+        'as' => 'admin.',
+        'namespace' => 'Admin',
+        'middleware' => ['auth'],
+    ],
+    function () {
+
+        Route::get('', 'PostController@index')->name('home');
 
     }
 );

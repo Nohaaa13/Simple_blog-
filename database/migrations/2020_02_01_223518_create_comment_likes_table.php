@@ -18,6 +18,7 @@ class CreateCommentLikesTable extends Migration
             $table->timestamps();
             $table->integer('comment_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->boolean('like');
         });
         Schema::table('comment_likes', function (Blueprint $table) {
             $table->foreign('comment_id')->references('id')->on('comments')->onDelete('CASCADE');

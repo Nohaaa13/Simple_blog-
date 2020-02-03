@@ -18,6 +18,7 @@ class CreatePostLikesTable extends Migration
             $table->timestamps();
             $table->integer('post_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->boolean('like');
         });
         Schema::table('post_likes', function (Blueprint $table) {
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('CASCADE');

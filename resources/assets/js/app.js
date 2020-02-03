@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 require('./common/modal');
+require('./common/like');
 
 $(function () {
 
@@ -25,3 +26,7 @@ $(function () {
         $('#sort').val(type);
     });
 });
+
+
+
+

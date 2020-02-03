@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $updated_at
  * @property integer $comment_id
  * @property integer $user_id
+ * @property bool $like
  */
 
 class CommentLikes extends Model
@@ -21,7 +22,7 @@ class CommentLikes extends Model
 
 
     protected $fillable = [
-        'id', 'comment_id','user_id'
+        'id', 'comment_id','user_id','like'
     ];
 
     protected $casts = [

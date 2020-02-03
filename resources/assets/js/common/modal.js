@@ -7,7 +7,7 @@ modal.on('click', '.btn-ok', function(e) {
     var $modalDiv = $(e.delegateTarget);
     var location = $(this).data('location');
     var replace = $(this).data('replace');
-    console.log(location);
+
     $.ajax({
         url: location,
         type: 'DELETE',

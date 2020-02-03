@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Entity\Comments;
+use App\Entity\PostLikes;
 use App\Entity\Posts;
+use App\Entity\User\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,7 +24,7 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
-        $pageTitle = trans('admin.page.vacancies.header');
+        $pageTitle = trans('user.page.home.header');
 
         $query = Posts::with('comments','postLikes');
 
@@ -109,7 +112,83 @@ class PostController extends Controller
     public function show(Request $request, Posts $post)
     {
         $pageTitle = trans('user.page.post.show');
+        $query = Comments::where('post_id','=',$post->id);
+        $comments = $query->paginate(25) ;
 
-        return view('client.post.show', compact( 'pageTitle','post'));
+        return view('client.post.show', compact( 'pageTitle','post','comments'));
     }
+
+    public function postLikePost(Request $request )
+    {
+        $post_id = $request['postId'];
+        $is_like = $request['isLike'] === 'true';
+        $update = false;
+        $post = Posts::find($post_id);
+        if (!$post) {
+            return null;
+        }
+        $user = Auth::user();
+        $like = $user->likes()->where('post_id', $post_id)->first();
+        if ($like) {
+            $already_like = $like->like;
+            $update = true;
+            if ($already_like == true) {
+                $post->likes = $post->likes - 1 ;
+
+            }else
+            {
+                $post->likes = $post->likes + 1 ;
+            }
+            $post->save();
+            if ($already_like == $is_like) {
+                $like->delete();
+                return response()->json(['success'=>"$post->likes"]);
+            }
+
+        } else {
+            $like = new PostLikes();
+            if ($is_like == true)
+            {
+                $post->likes = $post->likes + 1 ;
+            }
+
+        }
+        $like->like = $is_like;
+        $like->user_id = $user->id;
+        $like->post_id = $post->id;
+        if ($update) {
+            $like->update();
+        } else {
+            $like->save();
+        }
+        $post->save();
+       return response()->json(['success'=>"$post->likes"]);
+    }
+
+
+    public function list(Request $request, User $users)
+    {
+        $pageTitle = trans('user.page.post.list');
+
+        $query = Posts::with('comments','postLikes')->where('user_id','=',$users->id);
+
+
+        if (!is_null($value = $request->get('sort'))) {
+            if ($value == 'created_at_asc') {
+                $query->orderByDesc('created_at');
+            } elseif ($value == 'created_at_desc') {
+                $query->orderBy('created_at');
+            } elseif ($value == 'likes_asc') {
+                $query->orderByDesc('likes');
+            }
+        } else {
+            $query = $query->orderByDesc('created_at');
+        }
+
+        $posts = $query->paginate(25) ;
+
+
+        return view('client.post.list', compact( 'pageTitle','posts'));
+    }
+
 }

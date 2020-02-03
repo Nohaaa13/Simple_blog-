@@ -2,7 +2,9 @@
 
 namespace App\Entity\User;
 
+use App\Entity\CommentLikes;
 use App\Entity\Comments;
+use App\Entity\PostLikes;
 use App\Entity\Posts;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
@@ -55,6 +57,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comments::class, 'user_id', 'id');
     }
+
+
+    public function likes()
+    {
+        return $this->hasMany(PostLikes::class, 'user_id', 'id');
+    }
+
+    public function commentsLikes()
+    {
+        return $this->hasMany(CommentLikes::class, 'user_id', 'id');
+    }
+
 
 
     /**

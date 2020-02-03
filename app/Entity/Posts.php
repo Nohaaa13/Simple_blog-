@@ -33,6 +33,7 @@ class Posts extends Model
         'updated_at' => 'datetime',
     ];
 
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
